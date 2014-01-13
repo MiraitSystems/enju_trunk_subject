@@ -1,8 +1,9 @@
 class SubjectHeadingType < ActiveRecord::Base
   attr_accessible :name, :display_name, :note
   include MasterModel
-  has_many :subjects
-  validates :name, :format => {:with => /\A[0-9a-z][0-9a-z_\-]*[0-9a-z]\Z/}
+  #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :subject_heading_type_has_subjects
+  has_many :subject_heading_type_has_subjects
+  has_many :subjects, :through => :subject_heading_type_has_subjects
 end
 
 # == Schema Information
@@ -14,7 +15,7 @@ end
 #  display_name :text
 #  note         :text
 #  position     :integer
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 

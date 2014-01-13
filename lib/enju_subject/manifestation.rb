@@ -5,26 +5,30 @@ module EnjuSubject
     end
 
     module ClassMethods
-      def enju_subject_manifestation_model
+      def enju_subject_model
         include InstanceMethods
-        attr_accessible :subjects_attributes, :classifications_attributes
-        has_many :subjects
-        has_many :classifications
-        accepts_nested_attributes_for :subjects, :allow_destroy => true, :reject_if => :all_blank
-        accepts_nested_attributes_for :classifications, :allow_destroy => true, :reject_if => :all_blank
+        attr_accessible :ndc, :classification_number
+        has_many :work_has_subjects, :foreign_key => 'work_id', :dependent => :destroy
+        has_many :subjects, :through => :work_has_subjects
 
         searchable do
           text :subject do
-            subjects.map{|s| [s.term, s.term_transcription]}.flatten.compact
+            subjects.map{|s| [:term, :term_transcription]}.compact
           end
           string :subject, :multiple => true do
-            subjects.map{|s| [s.term, s.term_transcription]}.flatten.compact
+            subjects.map{|s| [:term, :term_transcription]}.compact
           end
           string :classification, :multiple => true do
             classifications.collect(&:category)
           end
           integer :subject_ids, :multiple => true
         end
+      end
+    end
+
+    module InstanceMethods
+      def classifications
+        subjects.collect(&:classifications).flatten
       end
     end
   end

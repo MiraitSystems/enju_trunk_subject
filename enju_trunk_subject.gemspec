@@ -5,8 +5,8 @@ require "enju_subject/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "enju_trunk_subject"
-  s.version     = EnjuTrunkSubject::VERSION
+  s.name        = "enju_subject"
+  s.version     = EnjuSubject::VERSION
   s.authors     = ["MIS OSOL"]
   s.email       = ["tamiya.emiko@miraitsystems.jp"]
   s.homepage    = ""

@@ -42,7 +42,11 @@ describe SubjectsController do
     describe "When not logged in" do
       it "assigns all subjects as @subjects" do
         get :index
-        response.should be_success
+        assigns(:subjects).should_not be_nil
+      end
+
+      it "assigns all subjects as @subjects with work_id" do
+        get :index, :work_id => 1
         assigns(:subjects).should_not be_nil
       end
     end
@@ -134,6 +138,17 @@ describe SubjectsController do
         subject = FactoryGirl.create(:subject)
         get :edit, :id => subject.id
         assigns(:subject).should eq(subject)
+      end
+
+      it "should get edit with work" do
+        get :edit, :id => subjects(:subject_00001).id, :work_id => 1
+        assigns(:subject).should eq subjects(:subject_00001)
+        response.should be_success
+      end
+
+      it "should not get edit with missing work" do
+        get :edit, :id => subjects(:subject_00001).id, :work_id => 'missing'
+        response.should be_missing
       end
     end
 

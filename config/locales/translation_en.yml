@@ -2,10 +2,14 @@ en:
   activerecord:
     models:
       subject: Subject
+      work_has_subject: Resource has subject
       subject_type: Subject type
       subject_heading_type: Subject heading type
+      subject_heading_type_has_subject: Subject heading type to subject relationship
       classification: Classification
       classification_type: Classification type
+      subject_has_classification: Subject has classification
+      work: Work
 
     attributes:
       subject:
@@ -14,6 +18,10 @@ en:
         scope_note: Scope note
         note: Note
         lock_version: Lock version
+      work_has_subject:
+        work: Work
+        subject: Subject
+        subjectable_type: Subjectable type
       subject_type:
         name: Name
         display_name: Display name
@@ -24,6 +32,7 @@ en:
         display_name: Display name
         note: Note
         position: Position
+      subject_heading_type_has_subject:
       classification:
         category: Category
         name: Name
@@ -33,3 +42,10 @@ en:
         display_name: Display name
         note: Note
         position: Position
+      subject_has_classification:
+
+  work_has_subject:
+    add_work: "Add a work"
+    add_subject: "Add a subject"
+    subjectable: "Subjectable"
+
