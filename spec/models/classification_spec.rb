@@ -2,7 +2,29 @@
 require 'spec_helper'
 
 describe Classification do
-  #pending "add some examples to (or delete) #{__FILE__}"
+  #fixtures :classification_types
+  #fixtures :all
+  fixtures :classification_types
+
+  it "引数無し" do
+    lambda{Classification.import_from_tsv}.should raise_error(ArgumentError)
+  end
+
+  it "引数あり" do
+    lambda{Classification.import_from_tsv("/no_file")}.should raise_error(Errno::ENOENT)
+  end
+
+  it "引数あり" do
+    path = "#{Rails.root}/../../spec/fixtures/shtsv.tsv"
+    Classification.import_from_tsv(path)
+    r = Classification.all
+    r.size.should == 4
+    r[0].classifiation_identifier = "292.784"
+    r[1].classifiation_identifier = "253.04"
+    r[2].classifiation_identifier = "253.05"
+    r[3].classifiation_identifier = "253.06"
+  end
+
 
 end
 
