@@ -1,3 +1,3 @@
-module EnjuSubject
-  VERSION = "0.1.0.pre21"
+module EnjuTrunkSubject
+  VERSION = "1.0.1"
 end
