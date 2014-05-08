@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
 class ClassificationsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:index]
   before_filter :get_subject, :get_classification_type
   after_filter :solr_commit, :only => [:create, :update, :destroy]
-  cache_sweeper :subject_sweeper, :only => [:create, :update, :destroy]
 
   # GET /classifications
   # GET /classifications.json

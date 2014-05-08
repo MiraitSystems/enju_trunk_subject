@@ -2,6 +2,11 @@
   <%= f.error_messages -%>
 
   <div class="field">
+    <%= f.label :classifiation_identifier -%><br />
+    <%= f.text_field :classifiation_identifier, :autofocus => true -%>
+  </div>
+
+  <div class="field">
     <%= f.label :category -%><br />
     <%= f.text_field :category -%>
   </div>
@@ -13,7 +18,7 @@
 
   <div class="field">
     <%= f.label t('activerecord.models.classification_type') -%><br />
-    <%= f.select(:classification_type_id, @classification_types.collect{|c| [c.name, c.id]}) -%>
+    <%= f.select(:classification_type_id, @classification_types.collect{|c| [c.display_name, c.id]}) -%>
   </div>
 
   <div class="actions">

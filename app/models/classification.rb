@@ -1,16 +1,16 @@
 # coding: utf-8
 class Classification < ActiveRecord::Base
-  attr_accessible :parent_id, :category, :note, :classification_type_id
+  attr_accessible :parent_id, :category, :note, :classification_type_id, :classifiation_identifier
   has_many :subject_has_classifications, :dependent => :destroy
   has_many :subjects, :through => :subject_has_classifications
   belongs_to :classification_type, :validate => true
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :subject_has_classifications
 
   validates_associated :classification_type
-  validates_presence_of :category, :classification_type
+  validates_presence_of :category, :classification_type, :classifiation_identifier
   validates_uniqueness_of :classifiation_identifier, :scope => :classification_type_id
   searchable do
-    text :category, :note, :subject
+    text :category, :note, :subject, :classifiation_identifier
     integer :subject_ids, :multiple => true
     integer :classification_type_id
   end
