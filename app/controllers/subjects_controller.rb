@@ -127,8 +127,9 @@ class SubjectsController < ApplicationController
 
     respond_to do |format|
       if @subject.save
-        @subject.classifications << classification if classification
-        @subject.subject_heading_types << subject_heading_type if subject_heading_type
+        #@subject.classifications << classification if classification
+        #@subject.subject_heading_types << subject_heading_type if subject_heading_type
+        @subject.subject_heading_type = subject_heading_type if subject_heading_type
         format.html { redirect_to @subject, :notice => t('controller.successfully_created', :model => t('activerecord.models.subject')) }
         format.json { render :json => @subject, :status => :created, :location => @subject }
       else
@@ -180,6 +181,7 @@ class SubjectsController < ApplicationController
 
   private
   def prepare_options
+    @subject_heading_types = SubjectHeadingType.select([:id, :display_name, :position])
     @subject_types = SubjectType.all
   end
 end
