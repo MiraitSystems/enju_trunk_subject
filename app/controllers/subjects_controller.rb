@@ -179,6 +179,25 @@ class SubjectsController < ApplicationController
     end
   end
 
+  # GET /subjects/search_name.json
+  def search_name
+    struct_subject = Struct.new(:id, :text, :term_transcription)
+    if params[:subject_id]
+       a = Subject.where(id: params[:subject_id]).select("id, term").first
+       result = nil
+       result = struct_subject.new(a.id, a.term)
+    else
+       subjects = Subject.where("term like '%#{params[:search_phrase]}%'").select("id, term, term_transcription").limit(10)
+       result = []
+       subjects.each do |subject|
+           result << struct_subject.new(subject.id, subject.term, subject.term_transcription)
+       end
+    end
+    respond_to do |format|
+      format.json { render :text => result.to_json }
+    end
+  end
+
   private
   def prepare_options
     @subject_heading_types = SubjectHeadingType.select([:id, :display_name, :position])

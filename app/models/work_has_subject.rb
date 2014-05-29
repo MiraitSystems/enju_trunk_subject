@@ -1,5 +1,8 @@
 class WorkHasSubject < ActiveRecord::Base
   attr_accessible :subject_id, :work_id, :position
+
+  has_paper_trail
+
   belongs_to :subject
   belongs_to :work, :class_name => 'Manifestation'
 

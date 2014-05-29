@@ -1,4 +1,6 @@
 class Subject < ActiveRecord::Base
+  attr_accessor :classification_id, :subject_heading_type_id
+  
   attr_accessible :parent_id, :use_term_id, :term, :term_transcription,
     :subject_type_id, :note, :required_role_id, :subject_heading_type_id,
     :term_alternative
@@ -12,15 +14,17 @@ class Subject < ActiveRecord::Base
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id'
 
   has_many :work_has_subjects, :dependent => :destroy
-  has_many :manifestations, :through => :work_has_subjects, :class_name => 'Manifestation'
+  has_many :works, :through => :work_has_subjects, :class_name => 'Manifestation'
 
   has_many :subject_has_classifications, :dependent => :destroy
   has_many :classifications, :through => :subject_has_classifications, :class_name => 'Classification'
 
-  validates_associated :subject_type, :subject_heading_type
-  validates_presence_of :term, :subject_type_id, :subject_heading_type_id
+  has_many :subject_heading_type_has_subjects
+  has_many :subject_heading_types, :through => :subject_heading_type_has_subjects, :class_name => 'SubjectHeadingType'
 
-  attr_accessor :classification_id
+  validates_associated :subject_type
+  validates_presence_of :term, :subject_type
+
 
   searchable do
     text :term
