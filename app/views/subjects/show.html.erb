@@ -11,9 +11,11 @@
     (<%= link_to_wikipedia(@subject.term) -%>)
   </p>
 
+<%- if @subject.subject_heading_type -%>
   <p>
       <%= link_to @subject.subject_heading_type.display_name.localize, @subject.subject_heading_type -%>
   </p>
+<%- end -%>
 
   <p>
     <strong><%= t('activerecord.attributes.subject.term_transcription') -%>:</strong>

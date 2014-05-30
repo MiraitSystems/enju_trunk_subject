@@ -3,7 +3,7 @@ class SubjectsController < ApplicationController
   load_and_authorize_resource :except => :index
   authorize_resource :only => :index
   before_filter :get_work, :get_subject_heading_type, :get_classification
-  before_filter :prepare_options, :only => :new
+  before_filter :prepare_options, :only => [:new, :edit]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /subjects
@@ -108,10 +108,10 @@ class SubjectsController < ApplicationController
   def edit
     if @work
       @subject = @work.subjects.find(params[:id])
-    #else
-    #  @subject = Subject.find(params[:id])
+    else
+      @subject = Subject.find(params[:id])
+      @subject.subject_heading_type_id = @subject.subject_heading_type.id if @subject.subject_heading_type.present?
     end
-    @subject_types = SubjectType.all
   end
 
   # POST /subjects
@@ -128,8 +128,8 @@ class SubjectsController < ApplicationController
     respond_to do |format|
       if @subject.save
         #@subject.classifications << classification if classification
-        #@subject.subject_heading_types << subject_heading_type if subject_heading_type
-        @subject.subject_heading_type = subject_heading_type if subject_heading_type
+        @subject.subject_heading_types << subject_heading_type if subject_heading_type
+#        @subject.subject_heading_type = subject_heading_type if subject_heading_type
         format.html { redirect_to @subject, :notice => t('controller.successfully_created', :model => t('activerecord.models.subject')) }
         format.json { render :json => @subject, :status => :created, :location => @subject }
       else
@@ -147,15 +147,24 @@ class SubjectsController < ApplicationController
   def update
     if @work
       @subject = @work.subjects.find(params[:id])
-    #else
-    #  @subject = Subject.find(params[:id])
+    else
+      @subject.assign_attributes(params[:subject])
     end
 
+    classification = Classification.find(@subject.classification_id) if @subject.classification_id.present?
+    subject_heading_type = SubjectHeadingType.find(@subject.subject_heading_type_id) if @subject.subject_heading_type_id.present?
+
     respond_to do |format|
-      if @subject.update_attributes(params[:subject])
+      if @subject.save
+        subject_heading_types = [] 
+        subject_heading_types << subject_heading_type if subject_heading_type
+        @subject.subject_heading_types = subject_heading_types
+
         format.html { redirect_to @subject, :notice => t('controller.successfully_updated', :model => t('activerecord.models.subject')) }
         format.json { head :no_content }
       else
+        @classification = classification
+        @subject_heading_type = subject_heading_type
         prepare_options
         format.html { render :action => "edit" }
         format.json { render :json => @subject.errors, :status => :unprocessable_entity }
@@ -199,6 +208,7 @@ class SubjectsController < ApplicationController
   end
 
   private
+
   def prepare_options
     @subject_heading_types = SubjectHeadingType.select([:id, :display_name, :position])
     @subject_types = SubjectType.all

@@ -30,12 +30,18 @@ class Subject < ActiveRecord::Base
     text :term
     time :created_at
     integer :required_role_id
+    integer :work_ids, :multiple => true
+    integer :subject_heading_type_ids, :multiple => true
   end
 
   normalize_attributes :term
 
   paginates_per 10
 
+  def subject_heading_type
+    self.subject_heading_types.first
+  end
+  
   def self.import_subjects(subject_lists, subject_transcriptions = nil)
     return [] if subject_lists.blank?
     subjects = subject_lists.gsub('；', ';').split(/;/)
