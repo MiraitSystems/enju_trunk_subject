@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Subject < ActiveRecord::Base
   attr_accessor :classification_id, :subject_heading_type_id
   
