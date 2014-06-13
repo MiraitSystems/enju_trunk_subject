@@ -9,6 +9,7 @@ class CreateSubjects < ActiveRecord::Migration
       t.text :scope_note
       t.text :note
       t.integer :required_role_id, :default => 1, :null => false
+      t.integer :work_has_subjects_count, :default => 0, :null => false
       t.integer :lock_version, :default => 0, :null => false
       t.datetime :created_at
       t.datetime :updated_at
