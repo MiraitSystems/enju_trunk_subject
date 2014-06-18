@@ -5,6 +5,8 @@ class Classification < ActiveRecord::Base
   has_many :subjects, :through => :subject_has_classifications
   belongs_to :classification_type, :validate => true
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :subject_has_classifications
+  has_many :manifestation_has_classifications
+  has_many :manifestations, :through => :manifestation_has_classifications
 
   validates_associated :classification_type
   validates_presence_of :category, :classification_type, :classifiation_identifier

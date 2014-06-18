@@ -111,4 +111,27 @@ class ClassificationsController < ApplicationController
   def get_classification_type
     @classification_type = ClassificationType.find(params[:classification_type_id]) rescue nil
   end
+
+  # GET /classifications/search_name.json
+  def search_name
+    struct_classification = Struct.new(:id, :text)
+    if params[:classification_id]
+       classification = Classification.where(id: params[:classification_id]).select("id, category, classifiation_identifier").first
+       result = struct_classification.new(classification.id, "#{classification.category}(#{classification.classifiation_identifier})")
+    else
+      result = []
+      classifications = Classification
+                          .where(["category like ? or classifiation_identifier like ? ", "#{params[:search_phrase]}%", "#{params[:search_phrase]}%"])
+                          .where("classification_type_id = ?", params[:classification_type_id])
+                          .select("id, category, classifiation_identifier")
+                          .limit(10)
+      classifications.each do |classification|
+        result << struct_classification.new(classification.id, "#{classification.category}(#{classification.classifiation_identifier})")
+      end
+    end
+    respond_to do |format|
+      format.json { render :text => result.to_json }
+    end
+  end
+
 end
