@@ -116,17 +116,17 @@ class ClassificationsController < ApplicationController
   def search_name
     struct_classification = Struct.new(:id, :text)
     if params[:classification_id]
-       classification = Classification.where(id: params[:classification_id]).select("id, category, classifiation_identifier").first
+       classification = Classification.where(id: params[:classification_id]).select("id, category, classification_identifier").first
        result = struct_classification.new(classification.id, "#{classification.category}(#{classification.classifiation_identifier})")
     else
       result = []
       classifications = Classification
-                          .where(["category like ? or classifiation_identifier like ? ", "#{params[:search_phrase]}%", "#{params[:search_phrase]}%"])
+                          .where(["category like ? or classification_identifier like ? ", "#{params[:search_phrase]}%", "#{params[:search_phrase]}%"])
                           .where("classification_type_id = ?", params[:classification_type_id])
-                          .select("id, category, classifiation_identifier")
+                          .select("id, category, classification_identifier")
                           .limit(10)
       classifications.each do |classification|
-        result << struct_classification.new(classification.id, "#{classification.category}(#{classification.classifiation_identifier})")
+        result << struct_classification.new(classification.id, "#{classification.category}(#{classification.classification_identifier})")
       end
     end
     respond_to do |format|
