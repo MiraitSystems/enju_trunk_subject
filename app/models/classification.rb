@@ -1,6 +1,6 @@
 # coding: utf-8
 class Classification < ActiveRecord::Base
-  attr_accessible :parent_id, :category, :note, :classification_type_id, :classifiation_identifier
+  attr_accessible :parent_id, :category, :note, :classification_type_id, :classification_identifier
   has_many :subject_has_classifications, :dependent => :destroy
   has_many :subjects, :through => :subject_has_classifications
   belongs_to :classification_type, :validate => true
@@ -9,10 +9,10 @@ class Classification < ActiveRecord::Base
   has_many :manifestations, :through => :manifestation_has_classifications
 
   validates_associated :classification_type
-  validates_presence_of :category, :classification_type, :classifiation_identifier
-  validates_uniqueness_of :classifiation_identifier, :scope => :classification_type_id
+  validates_presence_of :category, :classification_type, :classification_identifier
+  validates_uniqueness_of :classification_identifier, :scope => :classification_type_id
   searchable do
-    text :category, :note, :subject, :classifiation_identifier
+    text :category, :note, :subject, :classification_identifier
     integer :subject_ids, :multiple => true
     integer :classification_type_id
   end
@@ -46,12 +46,12 @@ class Classification < ActiveRecord::Base
               parent_id = nil
               category = rows[0].strip
               identifier = ndc.strip
-              c = Classification.where(classification_type_id: ndc9.id, classifiation_identifier: identifier)
+              c = Classification.where(classification_type_id: ndc9.id, classification_identifier: identifier)
               if c.blank?
                 c = Classification.new
                 c.parent_id = parent_id
                 c.category = category
-                c.classifiation_identifier = identifier
+                c.classification_identifier = identifier
                 c.classification_type = ndc9
                 c.save!
               end

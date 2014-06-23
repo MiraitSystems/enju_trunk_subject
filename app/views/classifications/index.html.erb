@@ -15,7 +15,7 @@
   <tr>
     <th><%= t('activerecord.attributes.classification.category') -%></th>
     <th><%= t('activerecord.attributes.classification.note') -%></th>
-    <th><%= t('activerecord.attributes.classification.classifiation_identifier') -%></th>
+    <th><%= t('activerecord.attributes.classification.classification_identifier') -%></th>
     <th><%= t('activerecord.models.classification_type') -%></th>
     <th></th>
   </tr>
@@ -24,7 +24,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to classification.category, classification -%></td>
     <td><%= classification.note -%></td>
-    <td><%= classification.classifiation_identifier -%></td>
+    <td><%= classification.classification_identifier -%></td>
     <td><%= link_to classification.classification_type.display_name.localize, classification.classification_type -%></td>
     <td>
       <%- if can? :delete, classification -%>
