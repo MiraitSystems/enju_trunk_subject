@@ -63,7 +63,7 @@
       <li><%= link_to t('page.destroy'), subject_path(@subject), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></li>
     <%- end -%>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.classification')), subject_classifications_path(@subject) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), subject_works_path(@subject) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.attributes.work_has_subject.work')), subject_works_path(@subject) -%></li>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.subject_heading_type')), subject_subject_heading_types_path(@subject) -%></li>
   </ul>
 </div>
