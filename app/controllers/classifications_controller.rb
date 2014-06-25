@@ -117,7 +117,7 @@ class ClassificationsController < ApplicationController
     struct_classification = Struct.new(:id, :text)
     if params[:classification_id]
        classification = Classification.where(id: params[:classification_id]).select("id, category, classification_identifier").first
-       result = struct_classification.new(classification.id, "#{classification.category}(#{classification.classifiation_identifier})")
+       result = struct_classification.new(classification.id, "#{classification.category}(#{classification.classification_identifier})")
     else
       result = []
       classifications = Classification
