@@ -22,6 +22,54 @@ class Classification < ActiveRecord::Base
 
   paginates_per 10
 
+  # NDC
+  def self.import_class_from_file(filename)
+    logger.info "import_class_from_file start"
+
+    default_class = ClassificationType.where(name: "ndc").first
+    classification_type = nil
+    cnt = 0
+
+    open(filename) do |file|
+      file.each do |line|
+        if line[0] == "*"
+          class_type_name = line[1..-1].strip
+          classification_type = ClassificationType.where(name: class_type_name).first
+          unless classification_type
+            logger.fatal "ndc not found #{line}"
+            puts "ndc not found #{line} / name=#{class_type_name}"
+            raise ActiveRecord::RecordNotFound("ndc not found")
+          end
+
+          Classification.destroy_all(classification_type_id: classification_type.id)
+	end
+        rows = line.split(" ", 2)
+        if rows[1].present?
+          unless classification_type
+            classification_type = default_class
+          end
+
+	  parent_id = nil
+	  category = rows[1].strip
+	  identifier = rows[0].strip
+	  c = Classification.where(classification_type_id: classification_type.id, classification_identifier: identifier)
+	  if c.blank?
+	    c = Classification.new
+            c.parent_id = parent_id
+            c.category = category
+            c.classification_identifier = identifier
+            c.classification_type = classification_type
+            c.save!
+          end
+         end
+	cnt = cnt + 1
+      end
+    end
+
+    logger.info "import_class_from_file end. record=#{cnt}"
+  end
+
+  # NDC9
   def self.import_from_tsv(filename)
     logger.info "import_from_tsv start"
 
