@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class SubjectsController < ApplicationController
-  load_and_authorize_resource :except => :index
-  authorize_resource :only => :index
+  load_and_authorize_resource :except => [:index, :search_name]
+  authorize_resource :only =>[:index, :seach_name]
   before_filter :get_work, :get_subject_heading_type, :get_classification
   before_filter :prepare_options, :only => [:new, :edit]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
