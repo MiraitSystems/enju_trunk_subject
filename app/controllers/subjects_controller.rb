@@ -196,7 +196,10 @@ class SubjectsController < ApplicationController
        result = nil
        result = struct_subject.new(a.id, a.term)
     else
-       subjects = Subject.where("term like '%#{params[:search_phrase]}%'").select("id, term, term_transcription").limit(10)
+       subjects = Subject
+                   .where("term like '%#{params[:search_phrase]}%'")
+                   .where("subject_type_id = ?", params[:subject_type_id])
+                   .select("id, term, term_transcription").limit(10)
        result = []
        subjects.each do |subject|
            result << struct_subject.new(subject.id, subject.term, subject.term_transcription)
