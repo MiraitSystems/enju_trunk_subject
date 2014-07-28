@@ -192,9 +192,9 @@ class SubjectsController < ApplicationController
   def search_name
     struct_subject = Struct.new(:id, :text, :term_transcription)
     if params[:subject_id]
-       a = Subject.where(id: params[:subject_id]).select("id, term").first
+       a = Subject.where(id: params[:subject_id]).try(:select, "id, term").try(:first)
        result = nil
-       result = struct_subject.new(a.id, a.term)
+       result = a ? struct_subject.new(a.id, a.term) : struct_subject.new(nil, params[:subject_id]) 
     else
        subjects = Subject
                    .where("term like '%#{params[:search_phrase]}%'")
