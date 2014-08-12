@@ -1,6 +1,6 @@
 # coding: utf-8
 class Classification < ActiveRecord::Base
-  attr_accessible :parent_id, :category, :note, :classification_type_id, :classification_identifier
+  attr_accessible :parent_id, :category, :note, :classification_type_id, :classification_identifier, :group_identifier
   has_many :subject_has_classifications, :dependent => :destroy
   has_many :subjects, :through => :subject_has_classifications
   belongs_to :classification_type, :validate => true
@@ -59,6 +59,7 @@ class Classification < ActiveRecord::Base
             c.category = category
             c.classification_identifier = identifier
             c.classification_type = classification_type
+            c.group_identifier = identifier[0] + '00'
             c.save!
           end
          end
@@ -101,6 +102,7 @@ class Classification < ActiveRecord::Base
                 c.category = category
                 c.classification_identifier = identifier
                 c.classification_type = ndc9
+                c.group_idenfier = identifier[0] + '00'
                 c.save!
               end
             end

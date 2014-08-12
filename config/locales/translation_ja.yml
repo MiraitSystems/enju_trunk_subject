@@ -29,6 +29,7 @@ ja:
         name: 名前
         note: 注記
         classification_identifier: 記号
+        group_identifier: グループ記号
       classification_type:
         name: 名前
         display_name: 表示名

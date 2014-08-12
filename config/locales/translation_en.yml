@@ -28,6 +28,7 @@ en:
         category: Category
         name: Name
         note: Note
+        group_identifier: Group
       classification_type:
         name: Name
         display_name: Display name
