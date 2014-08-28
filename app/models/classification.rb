@@ -102,7 +102,7 @@ class Classification < ActiveRecord::Base
                 c.category = category
                 c.classification_identifier = identifier
                 c.classification_type = ndc9
-                c.group_idenfier = identifier[0] + '00'
+                c.group_identifier = identifier[0] + '00'
                 c.save!
               end
             end
