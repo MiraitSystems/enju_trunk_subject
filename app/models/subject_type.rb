@@ -3,6 +3,13 @@ class SubjectType < ActiveRecord::Base
   include MasterModel
   default_scope :order => "position"
   has_many :subjects
+  
+  def self.find_or_create_by_name(name)
+    subject_type = SubjectType.where(:name => name).first
+    subject_type = SubjectType.create(:name => name, :display_name => name) unless subject_type
+    return subject_type
+  end
+
 end
 
 # == Schema Information
