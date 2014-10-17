@@ -112,6 +112,20 @@ class ClassificationsController < ApplicationController
     @classification_type = ClassificationType.find(params[:classification_type_id]) rescue nil
   end
 
+  def search_category
+    @sub_categories = Classification.get_categories
+    # @sub_categories = Classification.where("classification_identifier LIKE ?", '__0').order("classification_identifier")
+    @int_sub_categories = @sub_categories.map{ |sub_category| sub_category.group_identifier.to_i }
+    @check_category = 1;
+  end
+
+  def search_sub_category
+    @sub_category_number = 1 # TODO params[:sub_category_number]
+    @detail_categories = Classification.where("classification_identifier LIKE ?", "#{@sub_category_number}__").order("classification_identifier")
+    @int_detail_categories = @detail_categories.map{ |detail_category| detail_category.classification_identifier.to_i }
+    @check_category = 1;
+  end
+
   # GET /classifications/search_name.json
   def search_name
     struct_classification = Struct.new(:id, :text)

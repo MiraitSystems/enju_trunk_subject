@@ -1,0 +1,27 @@
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title"><%= t('activerecord.attributes.search.classification_search') -%></h1>
+<div id="content_list">
+
+<table> 
+  <% (@detail_categories.zip(@int_detail_categories)).each do |detail_category, int_detail_category| %>
+    <% if int_detail_category % 10 == 0 %>
+      <tr>
+        <th>
+          <%= detail_category.classification_identifier %>
+          <%= detail_category.category %>
+        </th>
+      </tr>
+      <% @check_category = detail_category.group_identifier.to_i %>
+      <% next %>
+    <% end %>
+    <tr>
+      <td> 
+        <%= detail_category.classification_identifier %>
+        <%= detail_category.category %>
+      </td> 
+    </tr>
+  <% end %>
+</table> 
+
+</div>
+</div>

@@ -1,0 +1,20 @@
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title"><%= t('activerecord.attributes.search.classification_search') -%></h1>
+<div id="content_list">
+
+<table> 
+  <div>
+  <% @sub_categories.each do |test| %>
+    <%= test.classification_identifier %>
+  <% end %>
+  </div>
+  <% 0.step(990, 10) do |index| %>
+    <% if @sub_categories.fetch{index, nil} %>
+      <%= @sub_categories[index].classification_identifier %>
+      <%= @sub_categories[index].category %>
+    <% end %>
+  <% end %>
+</table> 
+
+</div>
+</div>
