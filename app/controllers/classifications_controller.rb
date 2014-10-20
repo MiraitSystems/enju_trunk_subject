@@ -113,17 +113,30 @@ class ClassificationsController < ApplicationController
   end
 
   def search_category
-    @sub_categories = Classification.get_categories
-    # @sub_categories = Classification.where("classification_identifier LIKE ?", '__0').order("classification_identifier")
-    @int_sub_categories = @sub_categories.map{ |sub_category| sub_category.group_identifier.to_i }
+    @sub_categories = Classification.get_sub_categories
     @check_category = 1;
   end
 
   def search_sub_category
-    @sub_category_number = 1 # TODO params[:sub_category_number]
-    @detail_categories = Classification.where("classification_identifier LIKE ?", "#{@sub_category_number}__").order("classification_identifier")
-    @int_detail_categories = @detail_categories.map{ |detail_category| detail_category.classification_identifier.to_i }
+    sub_category_number = params[:sub_category_number]
+    @sub_category = ("#{sub_category_number}" + "00").to_i
+    @max = @sub_category + 99
+    @detail_categories = Classification.get_detail_categories(sub_category_number, @sub_category, @max)
     @check_category = 1;
+
+    logger.error "######## #{@sub_category} ########"
+    @search_param = []
+    @sub_category.upto(@max) do |index| 
+      if SystemConfiguration.get('manifestation.search.use_select2_for_classification') 
+        if @detail_categories[index] 
+          @search_param[index] = [{"classification_id" => "#{@detail_categories[index].id}", "classification_type_id" => "#{@detail_categories[index].classification_type_id}" }] 
+        else 
+          @search_param[index] = [{"classification_id" => nil, "classification_type_id" => "2" }] 
+        end 
+      else 
+        @search_param[index] = [{"classification_identifier" => "#{sprintf("%03d",index)}", "classification_type_id" => "2" }] 
+      end 
+    end 
   end
 
   # GET /classifications/search_name.json

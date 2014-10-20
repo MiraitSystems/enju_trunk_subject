@@ -3,15 +3,33 @@
 <div id="content_list">
 
 <table> 
-  <div>
-  <% @sub_categories.each do |test| %>
-    <%= test.classification_identifier %>
-  <% end %>
-  </div>
   <% 0.step(990, 10) do |index| %>
-    <% if @sub_categories.fetch{index, nil} %>
-      <%= @sub_categories[index].classification_identifier %>
-      <%= @sub_categories[index].category %>
+    <% if index % 300 == 0 %>
+      <tr>
+    <% end %>
+    
+    <% if index % 100 == 0 %>
+      <td>
+      <h4>
+        <%= link_to t('activerecord.attributes.search.category', :category_number => index / 100, :category_name => t("activerecord.attributes.search.category#{index / 100}_name")), classifications_search_sub_category_path(:sub_category_number => index / 100) %>
+      </h4>
+      <ul>
+    <% end %>
+
+      <li>
+        <% if @sub_categories[index] %>
+          <%= link_to "#{@sub_categories[index].classification_identifier} #{@sub_categories[index].category}", classifications_search_sub_category_path(:sub_category_number => index / 100) %>
+        <% else %>
+          <%= link_to sprintf("%03d",index), classifications_search_sub_category_path(:sub_category_number => index / 100) %>
+        <% end %>
+      </li>
+
+    <% if (index + 10) % 100 == 0 %>
+      </ul>
+      </td>
+    <% end %>
+    <% if (index + 10) % 300 == 0 %>
+      </tr>
     <% end %>
   <% end %>
 </table> 

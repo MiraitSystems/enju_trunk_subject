@@ -3,22 +3,25 @@
 <div id="content_list">
 
 <table> 
-  <% (@detail_categories.zip(@int_detail_categories)).each do |detail_category, int_detail_category| %>
-    <% if int_detail_category % 10 == 0 %>
-      <tr>
-        <th>
-          <%= detail_category.classification_identifier %>
-          <%= detail_category.category %>
-        </th>
-      </tr>
-      <% @check_category = detail_category.group_identifier.to_i %>
-      <% next %>
-    <% end %>
+  <% @sub_category.upto(@max) do |index| %>
     <tr>
-      <td> 
-        <%= detail_category.classification_identifier %>
-        <%= detail_category.category %>
-      </td> 
+      <% if index % 10 == 0 %>
+        <th>
+      <% else %>
+        <td>
+      <% end %>
+
+        <% if @detail_categories[index] %>
+          <%= link_to "#{@detail_categories[index].classification_identifier} #{@detail_categories[index].category}", page_advanced_search_path(:classifications => @search_param[index]) %>
+        <% else %>
+          <%= link_to sprintf("%03d",index), page_advanced_search_path(:classifications => @search_param[index]) %>
+        <% end %>
+
+      <% if index % 10 == 0 %>
+        </th>
+      <% else %>
+        </td>
+      <% end %>
     </tr>
   <% end %>
 </table> 

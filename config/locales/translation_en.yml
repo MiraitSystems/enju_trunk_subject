@@ -34,3 +34,17 @@ en:
         display_name: Display name
         note: Note
         position: Position
+      search:
+        classification_search: Classification search
+        category: "Category %{category_number}  %{category_name}"
+        category0_name: 総記
+        category1_name: 哲学
+        category2_name: 歴史
+        category3_name: 社会科学
+        category4_name: 自然科学
+        category5_name: 技術・工学・工業
+        category6_name: 産業
+        category7_name: 芸術・美術
+        category8_name: 言語
+        category9_name: 文学
+  

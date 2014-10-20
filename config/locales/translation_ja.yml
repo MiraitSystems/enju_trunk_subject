@@ -37,16 +37,7 @@ ja:
         position: 位置
       search:
         classification_search: 分類検索
-        category0: 0類
-        category1: 1類
-        category2: 2類
-        category3: 3類
-        category4: 4類
-        category5: 5類
-        category6: 6類
-        category7: 7類
-        category8: 8類
-        category9: 9類
+        category: "%{category_number} 類  %{category_name}"
         category0_name: 総記
         category1_name: 哲学
         category2_name: 歴史
