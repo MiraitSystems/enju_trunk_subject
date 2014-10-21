@@ -117,12 +117,11 @@ class Classification < ActiveRecord::Base
 
   def self.get_sub_categories
     format_categories = {}
-    categories = Classification.where("classification_identifier LIKE ?", '__0').order("classification_identifier")
+    categories = Classification.where("classification_type_id = ? and classification_identifier LIKE ?", 2, '__0').order("classification_identifier")
     0.step(990, 10) do |index|
       categories.size.times do |num|
         if categories[num].classification_identifier.to_i == index
           format_categories[index] = categories[num]
-          logger.error "##### #{format_categories[index].classification_identifier} ######"
         end
       end 
     end
@@ -131,7 +130,7 @@ class Classification < ActiveRecord::Base
 
   def self.get_detail_categories(sub_category_number, sub_category, max)
     format_categories = {}
-    categories = Classification.where("classification_identifier LIKE ?", "#{sub_category_number}__").order("classification_identifier")
+    categories = Classification.where("classification_type_id = ? and classification_identifier LIKE ?", 2, "#{sub_category_number}__").order("classification_identifier")
     sub_category.upto(max) do |index|
       categories.size.times do |num|
         if categories[num].classification_identifier.to_i == index

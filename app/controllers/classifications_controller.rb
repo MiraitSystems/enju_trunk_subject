@@ -113,30 +113,35 @@ class ClassificationsController < ApplicationController
   end
 
   def search_category
-    @sub_categories = Classification.get_sub_categories
-    @check_category = 1;
-  end
-
-  def search_sub_category
-    sub_category_number = params[:sub_category_number]
-    @sub_category = ("#{sub_category_number}" + "00").to_i
-    @max = @sub_category + 99
-    @detail_categories = Classification.get_detail_categories(sub_category_number, @sub_category, @max)
-    @check_category = 1;
-
-    logger.error "######## #{@sub_category} ########"
-    @search_param = []
-    @sub_category.upto(@max) do |index| 
-      if SystemConfiguration.get('manifestation.search.use_select2_for_classification') 
-        if @detail_categories[index] 
-          @search_param[index] = [{"classification_id" => "#{@detail_categories[index].id}", "classification_type_id" => "#{@detail_categories[index].classification_type_id}" }] 
+    if params[:sub_category_number]
+      @category = 1 # 詳細のページを表示するかのフラグ
+      sub_category_number = params[:sub_category_number]
+      @count_start = ("#{sub_category_number}" + "00").to_i
+      @count_end = @count_start + 99
+      @step = 10
+      @categories = Classification.get_detail_categories(sub_category_number, @count_start, @count_end)
+  
+      @search_param = []
+      @count_start.upto(@count_end) do |index| 
+        if SystemConfiguration.get('manifestation.search.use_select2_for_classification') 
+          if @categories[index] 
+            @search_param[index] = [{"classification_id" => "#{@categories[index].id}", "classification_type_id" => "#{@categories[index].classification_type_id}" }] 
+          else 
+            @search_param[index] = [{"classification_id" => nil, "classification_type_id" => "2" }] 
+          end 
         else 
-          @search_param[index] = [{"classification_id" => nil, "classification_type_id" => "2" }] 
+          @search_param[index] = [{"classification_identifier" => "#{sprintf("%03d",index)}", "classification_type_id" => "2" }] 
         end 
-      else 
-        @search_param[index] = [{"classification_identifier" => "#{sprintf("%03d",index)}", "classification_type_id" => "2" }] 
       end 
-    end 
+    else
+      @category = 0 # 詳細のページを表示するかのフラグ
+      @count_start = 0
+      @count_end = 900
+      @step = 100
+      @categories = Classification.get_sub_categories
+    end
+
+    render :layout => 'classification_search'
   end
 
   # GET /classifications/search_name.json

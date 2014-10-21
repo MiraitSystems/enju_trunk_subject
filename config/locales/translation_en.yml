@@ -36,6 +36,10 @@ en:
         position: Position
       search:
         classification_search: Classification search
+        classification_search_title: "Classification_search（%{name}：%{list}）"
+        ndc: NDC
+        sub_category: Sub category
+        detail_category: Detail category
         category: "Category %{category_number}  %{category_name}"
         category0_name: 総記
         category1_name: 哲学
@@ -47,4 +51,5 @@ en:
         category7_name: 芸術・美術
         category8_name: 言語
         category9_name: 文学
-  
+        description_html: "日本十進分類法で検索することができます。"
+        detail_description_html: "綱目表（２次区分表）で綱目を選択すると、要目表（３次区分表）ページの該当する要目表へ>移動します。"

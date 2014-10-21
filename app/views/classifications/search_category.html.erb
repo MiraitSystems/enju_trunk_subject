@@ -1,34 +1,56 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('activerecord.attributes.search.classification_search') -%></h1>
+<h1 class="title">
+<% if @category == 0 %>
+  <%= t('activerecord.attributes.search.classification_search_title', 
+    :name => t('activerecord.attributes.search.ndc'), 
+    :list => t('activerecord.attributes.search.sub_category')) -%>
+<% else %>
+  <%= t('activerecord.attributes.search.classification_search_title', 
+    :name => t('activerecord.attributes.search.category', 
+      :category_number => @count_start / 100, 
+      :category_name => t("activerecord.attributes.search.category#{@count_start / 100}_name")), 
+    :list => t('activerecord.attributes.search.detail_category')) -%>
+<% end %>
+</h1>
+
 <div id="content_list">
 
-<table> 
-  <% 0.step(990, 10) do |index| %>
-    <% if index % 300 == 0 %>
+<%= t('activerecord.attributes.search.description_html') %>
+<% if @category == 0 %>
+  <br />
+  <%= t('activerecord.attributes.search.detail_description_html') %>
+<% end %>
+
+<h2 id='classification_title'>
+<% if @category == 0 %>
+  <%= t('activerecord.attributes.search.sub_category') %>
+<% else %>
+  <%= t('activerecord.attributes.search.category', 
+    :category_number => @count_start / 100, 
+    :category_name => t("activerecord.attributes.search.category#{@count_start / 100}_name")) %> 
+  <%= t('activerecord.attributes.search.detail_category') %>
+<% end %>
+</h2>
+
+<table id="category_list"> 
+  <% @count_start.step(@count_end, @step) do |index| %>
+    <%# <tr></tr> を挟むタイミング %>
+    <% if @category == 0 %>
+      <% line_start = index % (@step * 3) %>
+      <% line_end = (index + 10) % (@step * 3) %>
+    <% else %>
+      <% line_start = (index - @count_start) % (@step * 3) %>
+      <% line_end = (index - @count_start + 10) % (@step * 3) %>
+    <% end %>
+    <% if line_start == 0 %>
       <tr>
     <% end %>
     
-    <% if index % 100 == 0 %>
-      <td>
-      <h4>
-        <%= link_to t('activerecord.attributes.search.category', :category_number => index / 100, :category_name => t("activerecord.attributes.search.category#{index / 100}_name")), classifications_search_sub_category_path(:sub_category_number => index / 100) %>
-      </h4>
-      <ul>
-    <% end %>
-
-      <li>
-        <% if @sub_categories[index] %>
-          <%= link_to "#{@sub_categories[index].classification_identifier} #{@sub_categories[index].category}", classifications_search_sub_category_path(:sub_category_number => index / 100) %>
-        <% else %>
-          <%= link_to sprintf("%03d",index), classifications_search_sub_category_path(:sub_category_number => index / 100) %>
-        <% end %>
-      </li>
-
-    <% if (index + 10) % 100 == 0 %>
-      </ul>
+      <td class='category_block'>
+        <%= render 'category_block', :index => index %>
       </td>
-    <% end %>
-    <% if (index + 10) % 300 == 0 %>
+
+    <% if line_end == 0 %>
       </tr>
     <% end %>
   <% end %>

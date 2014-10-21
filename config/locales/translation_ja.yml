@@ -37,6 +37,10 @@ ja:
         position: 位置
       search:
         classification_search: 分類検索
+        classification_search_title: "図書分類検索（%{name}：%{list}）"
+        ndc: 日本十進分類法NDC
+        sub_category: 網目表
+        detail_category: 要目表
         category: "%{category_number} 類  %{category_name}"
         category0_name: 総記
         category1_name: 哲学
@@ -48,6 +52,8 @@ ja:
         category7_name: 芸術・美術
         category8_name: 言語
         category9_name: 文学
+        description_html: "日本十進分類法で検索することができます。"
+        detail_description_html: "綱目表（２次区分表）で綱目を選択すると、要目表（３次区分表）ページの該当する要目表へ移動します。"
 
   manifestation_page:
     classification_ph: "分類記号を入力"
