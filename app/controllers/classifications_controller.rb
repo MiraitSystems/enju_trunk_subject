@@ -112,6 +112,38 @@ class ClassificationsController < ApplicationController
     @classification_type = ClassificationType.find(params[:classification_type_id]) rescue nil
   end
 
+  def search_category
+    if params[:sub_category_number]
+      @category = 1 # 詳細のページを表示するかのフラグ
+      sub_category_number = params[:sub_category_number]
+      @count_start = ("#{sub_category_number}" + "00").to_i
+      @count_end = @count_start + 99
+      @step = 10
+      @categories = Classification.get_detail_categories(sub_category_number, @count_start, @count_end)
+  
+      @search_param = []
+      @count_start.upto(@count_end) do |index| 
+        if SystemConfiguration.get('manifestation.search.use_select2_for_classification') 
+          if @categories[index] 
+            @search_param[index] = [{"classification_id" => "#{@categories[index].id}", "classification_type_id" => "#{@categories[index].classification_type_id}" }] 
+          else 
+            @search_param[index] = [{"classification_id" => nil, "classification_type_id" => "2" }] 
+          end 
+        else 
+          @search_param[index] = [{"classification_identifier" => "#{sprintf("%03d",index)}", "classification_type_id" => "2" }] 
+        end 
+      end 
+    else
+      @category = 0 # 詳細のページを表示するかのフラグ
+      @count_start = 0
+      @count_end = 900
+      @step = 100
+      @categories = Classification.get_sub_categories
+    end
+
+    render :layout => 'classification_search'
+  end
+
   # GET /classifications/search_name.json
   def search_name
     struct_classification = Struct.new(:id, :text)

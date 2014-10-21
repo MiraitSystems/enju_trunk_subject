@@ -1,0 +1,35 @@
+<h4 class='category_title'>
+  <% if @category == 0 %>
+    <%= link_to t('activerecord.attributes.search.category', :category_number => index / 100, :category_name => t("activerecord.attributes.search.category#{index / 100}_name")), classifications_search_category_path(:sub_category_number => index / 100, :anchor => "#{index}") %>
+    <% max = index + 90 %>
+    <% count = 10 %>
+  <% else %>
+    <% if @categories[index] %>
+      <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", page_advanced_search_path(:classifications => @search_param[index]), :id => "#{index}" %>
+    <% else %>
+      <%= link_to sprintf("%03d",index), page_advanced_search_path(:classifications => @search_param[index]), :id => "#{index}" %>
+    <% end %>
+    <% max = index + 9 %>
+    <% index = index + 1 %>
+    <% count = 1 %>
+  <% end %>
+</h4>
+<ul>
+  <% index.step(max, count) do |index| %>
+    <li>
+      <% if @categories[index] %>
+        <% if @category == 0 %>
+          <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", classifications_search_category_path(:sub_category_number => index / 100, :anchor => "#{index}") %>
+        <% else %>
+          <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", page_advanced_search_path(:classifications => @search_param[index]) %>
+        <% end %>
+      <% else %>
+        <% if @category == 0 %>
+          <%= link_to sprintf("%03d",index), classifications_search_category_path(:sub_category_number => index / 100, :anchor => "#{index}") %>
+        <% else %>
+          <%= link_to sprintf("%03d",index), page_advanced_search_path(:classifications => @search_param[index]) %>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

@@ -115,6 +115,32 @@ class Classification < ActiveRecord::Base
     logger.info "import_from_tsv end"
   end
 
+  def self.get_sub_categories
+    format_categories = {}
+    categories = Classification.where("classification_type_id = ? and classification_identifier LIKE ?", 2, '__0').order("classification_identifier")
+    0.step(990, 10) do |index|
+      categories.size.times do |num|
+        if categories[num].classification_identifier.to_i == index
+          format_categories[index] = categories[num]
+        end
+      end 
+    end
+    return format_categories
+  end
+
+  def self.get_detail_categories(sub_category_number, sub_category, max)
+    format_categories = {}
+    categories = Classification.where("classification_type_id = ? and classification_identifier LIKE ?", 2, "#{sub_category_number}__").order("classification_identifier")
+    sub_category.upto(max) do |index|
+      categories.size.times do |num|
+        if categories[num].classification_identifier.to_i == index
+          format_categories[index] = categories[num]
+        end
+      end 
+    end
+    return format_categories
+  end
+
   private
   def subject
     subjects.collect{|s| [s.term, s.term_transcription]}

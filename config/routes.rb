@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   end
   resources :subject_heading_type_has_subjects
 
+  match 'classifications/search_category' => 'classifications#search_category'
+  match 'classifications/search_sub_category' => 'classifications#search_sub_category'
   match 'classifications/search_name' => 'classifications#search_name'
   resources :classifications do
     resources :subject_has_classifications
