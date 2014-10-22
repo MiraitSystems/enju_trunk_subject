@@ -120,25 +120,44 @@ class ClassificationsController < ApplicationController
       @count_end = @count_start + 99
       @step = 10
       @categories = Classification.get_detail_categories(sub_category_number, @count_start, @count_end)
-  
-      @search_param = []
-      @count_start.upto(@count_end) do |index| 
-        if SystemConfiguration.get('manifestation.search.use_select2_for_classification') 
-          if @categories[index] 
-            @search_param[index] = [{"classification_id" => "#{@categories[index].id}", "classification_type_id" => "#{@categories[index].classification_type_id}" }] 
-          else 
-            @search_param[index] = [{"classification_id" => nil, "classification_type_id" => "2" }] 
-          end 
-        else 
-          @search_param[index] = [{"classification_identifier" => "#{sprintf("%03d",index)}", "classification_type_id" => "2" }] 
-        end 
-      end 
     else
       @category = 0 # 詳細のページを表示するかのフラグ
       @count_start = 0
       @count_end = 900
       @step = 100
       @categories = Classification.get_sub_categories
+    end
+  
+    @search_param = {}
+    @search_param_title = {}
+    @link = {}
+    @link_title = {}
+    if params[:sub_category_number]
+      @count_start.upto(@count_end) do |index| 
+        if index % 10 == 0
+          @search_param_title[index] = [{"classification_identifier" => "#{index / 10}", "classification_type_id" => "2"}]
+          @link_title[index] = page_advanced_search_path(:classifications => @search_param_title[index])
+        end
+        if SystemConfiguration.get('manifestation.search.use_select2_for_classification') 
+          if @categories[index] 
+            @search_param[index] = [{"classification_id" => "#{@categories[index].id}", "classification_type_id" => "#{@categories[index].classification_type_id}"}] 
+          else 
+            @search_param[index] = [{"classification_id" => nil, "classification_type_id" => "2"}] 
+          end 
+        else 
+          @search_param[index] = [{"classification_identifier" => "#{sprintf("%03d",index)}", "classification_type_id" => "2"}] 
+        end 
+        @link[index] = page_advanced_search_path(:classifications => @search_param[index])
+      end 
+    else
+      @count_start.step(@count_end, 10) do |index| 
+        if index % 100 == 0
+          @search_param_title[index] = [{"classification_identifier" => "#{index / 100}", "classification_type_id" => "2" }]
+          @link_title[index] = page_advanced_search_path(:classifications => @search_param_title[index])
+        end
+        @search_param[index] = {:sub_category_number => index / 100, :anchor => "#{index}"}
+        @link[index] = classifications_search_category_path(@search_param[index])
+      end
     end
 
     render :layout => 'classification_search'

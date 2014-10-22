@@ -52,8 +52,9 @@ ja:
         category7_name: 芸術・美術
         category8_name: 言語
         category9_name: 文学
-        description_html: "日本十進分類法で検索することができます。"
-        detail_description_html: "綱目表（２次区分表）で綱目を選択すると、要目表（３次区分表）ページの該当する要目表へ移動します。"
+        description_html: "日本十進分類法の分類記号を選択して詳細検索画面に入力します。"
+        sub_description_html: "綱目表（２次区分表）で綱目を選択すると、要目表（３次区分表）ページの該当する要目表へ移動します。<br>類目（0類 総記など）を選択するとその類目全体が対象になります。"
+        detail_description_html: "要目表（３次区分表）で要目を選択すると、詳細検索画面へ移動し、選択された要目の分類記号が分類のフォームに入力されます。<br>網目（太字部分）を選択するとその網目全体が対象になります。"
 
   manifestation_page:
     classification_ph: "分類記号を入力"

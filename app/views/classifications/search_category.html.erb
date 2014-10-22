@@ -14,10 +14,20 @@
 </h1>
 
 <div id="content_list">
-
-<%= t('activerecord.attributes.search.description_html') %>
+<div id="classifications_back">
+<a href="javascript:history.back()" data-icon="back" data-iconpos="notext" class="ui-btn-left">
+  <% if @category == 0 %>
+    <%= t('page.back_to_display', :display => t('page.advanced_search_display')) %>
+  <% else %>
+    <%= t('page.back_to_display', :display => t('page.before_display')) %>
+  <% end %>
+</a>
+</div>
+<%= t('activerecord.attributes.search.description_html') %><br />
+<br />
 <% if @category == 0 %>
-  <br />
+  <%= t('activerecord.attributes.search.sub_description_html') %>
+<% else %>
   <%= t('activerecord.attributes.search.detail_description_html') %>
 <% end %>
 
