@@ -114,14 +114,14 @@ class ClassificationsController < ApplicationController
 
   def search_category
     if params[:sub_category_number]
-      @category = 1 # 詳細のページを表示するかのフラグ
+      @category = 1 # 要目標を表示
       sub_category_number = params[:sub_category_number]
       @count_start = ("#{sub_category_number}" + "00").to_i
       @count_end = @count_start + 99
       @step = 10
       @categories = Classification.get_detail_categories(sub_category_number, @count_start, @count_end)
     else
-      @category = 0 # 詳細のページを表示するかのフラグ
+      @category = 0 # 網目表を表示
       @count_start = 0
       @count_end = 900
       @step = 100

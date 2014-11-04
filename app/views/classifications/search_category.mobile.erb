@@ -1,0 +1,70 @@
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title">
+<% if @category == 0 %>
+  <%= t('activerecord.attributes.search.classification_search_title', 
+    :name => t('activerecord.attributes.search.ndc'), 
+    :list => t('activerecord.attributes.search.sub_category')) -%>
+<% else %>
+  <%= t('activerecord.attributes.search.classification_search_title', 
+    :name => t('activerecord.attributes.search.category', 
+      :category_number => @count_start / 100, 
+      :category_name => t("activerecord.attributes.search.category#{@count_start / 100}_name")), 
+    :list => t('activerecord.attributes.search.detail_category')) -%>
+<% end %>
+</h1>
+
+<div id="content_list">
+<div id="classifications_back">
+<a href="javascript:history.back()" data-icon="back" data-iconpos="notext" class="ui-btn-left">
+  <% if @category == 0 %>
+    <%= t('page.back_to_display', :display => t('page.advanced_search_display')) %>
+  <% else %>
+    <%= t('page.back_to_display', :display => t('page.before_display')) %>
+  <% end %>
+</a>
+</div>
+<%= t('activerecord.attributes.search.description_html') %><br />
+<br />
+<% if @category == 0 %>
+  <%= t('activerecord.attributes.search.sub_description_html') %>
+<% else %>
+  <%= t('activerecord.attributes.search.detail_description_html') %>
+<% end %>
+
+<h2 id='classification_title'>
+<% if @category == 0 %>
+  <%= t('activerecord.attributes.search.sub_category') %>
+<% else %>
+  <%= t('activerecord.attributes.search.category', 
+    :category_number => @count_start / 100, 
+    :category_name => t("activerecord.attributes.search.category#{@count_start / 100}_name")) %> 
+  <%= t('activerecord.attributes.search.detail_category') %>
+<% end %>
+</h2>
+
+<table id="category_list"> 
+  <% @count_start.step(@count_end, @step) do |index| %>
+    <%# <tr></tr> を挟むタイミング %>
+    <% if @category == 0 %>
+      <% line_start = index % (@step * 3) %>
+      <% line_end = (index + 10) % (@step * 3) %>
+    <% else %>
+      <% line_start = (index - @count_start) % (@step * 3) %>
+      <% line_end = (index - @count_start + 10) % (@step * 3) %>
+    <% end %>
+    <% if line_start == 0 %>
+      <tr>
+    <% end %>
+    
+      <td class='category_block'>
+        <%= render 'category_block', :index => index %>
+      </td>
+
+    <% if line_end == 0 %>
+      </tr>
+    <% end %>
+  <% end %>
+</table> 
+
+</div>
+</div>

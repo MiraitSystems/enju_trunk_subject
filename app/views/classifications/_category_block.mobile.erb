@@ -1,0 +1,27 @@
+<h4 class='category_title'>
+  <% if @category == 0 %>
+    <%= image_tag('icons/back-black.png', :size => '16x16') -%>
+    <%= link_to t('activerecord.attributes.search.category', :category_number => index / 100, :category_name => t("activerecord.attributes.search.category#{index / 100}_name")), @link_title[index] %>
+    <% max = index + 90 %>
+    <% count = 10 %>
+  <% else %>
+    <% if @categories[index] %>
+      <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", @link_title[index], :id => "#{index}" %>
+    <% else %>
+      <%= link_to sprintf("%03d",index), @link_title[index], :id => "#{index}" %>
+    <% end %>
+    <% max = index + 9 %>
+    <% count = 1 %>
+  <% end %>
+</h4>
+<ul>
+  <% index.step(max, count) do |index| %>
+    <li>
+      <% if @categories[index] %>
+        <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", @link[index] %>
+      <% else %>
+        <%= link_to sprintf("%03d",index), @link[index] %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
