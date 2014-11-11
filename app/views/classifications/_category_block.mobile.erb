@@ -1,27 +1,41 @@
 <h4 class='category_title'>
-  <% if @category == 0 %>
-    <%= image_tag('icons/back-black.png', :size => '16x16') -%>
-    <%= link_to t('activerecord.attributes.search.category', :category_number => index / 100, :category_name => t("activerecord.attributes.search.category#{index / 100}_name")), @link_title[index] %>
-    <% max = index + 90 %>
-    <% count = 10 %>
-  <% else %>
+  <% if @category == 0 # 要目表 %>
+    <%#= image_tag('icons/back-black.png', :size => '16x16') -%>
+    <%#= link_to t('activerecord.attributes.search.category', :category_number => index / 100, :category_name => t("activerecord.attributes.search.category#{index / 100}_name")), @link_title[index] %>
+  <% elsif @category == 1 # 網目表 %>
     <% if @categories[index] %>
       <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", @link_title[index], :id => "#{index}" %>
     <% else %>
       <%= link_to sprintf("%03d",index), @link_title[index], :id => "#{index}" %>
     <% end %>
-    <% max = index + 9 %>
-    <% count = 1 %>
   <% end %>
 </h4>
-<ul>
-  <% index.step(max, count) do |index| %>
+
+<ul data-role="listview">
+  <% if @sub_category_number %>
     <li>
-      <% if @categories[index] %>
-        <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", @link[index] %>
-      <% else %>
-        <%= link_to sprintf("%03d",index), @link[index] %>
-      <% end %>
+      <%= link_to "#{@sub_category_number} #{t('activerecord.attributes.search.sub_category_all')}", @link_title[@count_start] %>
     </li>
+  <% elsif @category_number %>
+    <li>
+      <%= link_to "#{@category_number} #{t('activerecord.attributes.search.category_all')}", @link_title[@count_start] %>
+    </li>
+  <% end %> 
+
+  <% @count_start.step(@count_end, @step) do |index| %>
+    <% if @sub_category_number || @category_number %>
+      <li>
+        <% if @categories[index] %>
+          <%= link_to "#{@categories[index].classification_identifier} #{@categories[index].category}", @link[index] %>
+        <% else %>
+          <%= link_to sprintf("%03d",index), @link[index] %>
+        <% end %>
+      </li>
+    <% else %>
+      <li>
+        <%= link_to t('activerecord.attributes.search.category', :category_number => index, :category_name => t("activerecord.attributes.search.category#{index}_name")), @link[index] %>
+      </li>
+    <% end %>
   <% end %>
 </ul>
+

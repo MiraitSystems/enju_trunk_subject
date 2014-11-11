@@ -40,6 +40,8 @@ en:
         ndc: NDC
         sub_category: Sub category
         detail_category: Detail category
+        category_all: category_all
+        sub_category_all: sub_category_all
         category: "Category %{category_number}  %{category_name}"
         category0_name: 総記
         category1_name: 哲学

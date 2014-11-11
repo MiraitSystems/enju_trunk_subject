@@ -141,6 +141,32 @@ class Classification < ActiveRecord::Base
     return format_categories
   end
 
+  def self.get_sub_categories_mobile(category_number, count_start, count_end)
+    format_categories = {}
+    categories = Classification.where("classification_type_id = ? and classification_identifier LIKE ?", 2, "#{category_number}_0").order("classification_identifier")
+    count_start.step(count_end, 10) do |index|
+      categories.size.times do |num|
+        if categories[num].classification_identifier.to_i == index
+          format_categories[index] = categories[num]
+        end
+      end 
+    end
+    return format_categories
+  end
+
+  def self.get_detail_categories_mobile(sub_category_number, count_start, count_end)
+    format_categories = {}
+    categories = Classification.where("classification_type_id = ? and classification_identifier LIKE ?", 2, "#{sub_category_number}_").order("classification_identifier")
+    count_start.upto(count_end) do |index|
+      categories.size.times do |num|
+        if categories[num].classification_identifier.to_i == index
+          format_categories[index] = categories[num]
+        end
+      end 
+    end
+    return format_categories
+  end
+
   private
   def subject
     subjects.collect{|s| [s.term, s.term_transcription]}

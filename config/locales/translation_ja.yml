@@ -39,8 +39,11 @@ ja:
         classification_search: 分類検索
         classification_search_title: "図書分類検索（%{name}：%{list}）"
         ndc: 日本十進分類法NDC
+        category_list: 類目表 
         sub_category: 網目表
         detail_category: 要目表
+        category_all: 類目全体
+        sub_category_all: 網目全体
         category: "%{category_number} 類  %{category_name}"
         category0_name: 総記
         category1_name: 哲学
