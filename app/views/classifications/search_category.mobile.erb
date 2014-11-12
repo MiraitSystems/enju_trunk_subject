@@ -4,17 +4,24 @@
 <div id="content_list">
 <%= t('activerecord.attributes.search.description_html') %><br />
 <br />
-<% if @category == 0 %>
-  <%= t('activerecord.attributes.search.sub_description_html') %>
+<% if @sub_category_number %>
+  <%= t('activerecord.attributes.search.detail_description_mobile_html', :all => t('activerecord.attributes.search.sub_category_all')) %>
+<% elsif @category_number %>
+  <%= t('activerecord.attributes.search.sub_description_mobile_html', :all => t('activerecord.attributes.search.category_all')) %>
 <% else %>
-  <%= t('activerecord.attributes.search.detail_description_html') %>
+  <%= t('activerecord.attributes.search.description_mobile_html') %>
 <% end %>
 
 <!-- 表のタイトル -->
 <h2 id='classification_title'>
-<% if params[:sub_category_number] %>
+<% if @sub_category_number %>
+  <% if @categories[@count_start] %>
+    <%= "#{sprintf("%03d", @count_start)} #{@categories[@count_start].category}" %>
+  <% else %>
+    <%= "#{sprintf("%03d", @count_start)}" %>
+  <% end %>
   <%= t('activerecord.attributes.search.detail_category') %>
-<% elsif params[:category_number] %>
+<% elsif @category_number %>
   <%= t('activerecord.attributes.search.category', 
     :category_number => @count_start / 100, 
     :category_name => t("activerecord.attributes.search.category#{@count_start / 100}_name")) %> 

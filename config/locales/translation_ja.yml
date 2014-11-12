@@ -58,6 +58,9 @@ ja:
         description_html: "日本十進分類法の分類記号を選択して詳細検索画面に入力します。"
         sub_description_html: "綱目表（２次区分表）で綱目を選択すると、要目表（３次区分表）ページの該当する要目表へ移動します。<br>類目（0類 総記など）を選択するとその類目全体が対象になります。"
         detail_description_html: "要目表（３次区分表）で要目を選択すると、詳細検索画面へ移動し、選択された要目の分類記号が分類のフォームに入力されます。<br>網目（太字部分）を選択するとその網目全体が対象になります。"
+        description_mobile_html: "類目（大分類）を選択してください。<br>網目表（中分類）を表示します。"
+        sub_description_mobile_html: "網目（中分類）を選択してください。<br>要目表（小分類）を表示します。<br>%{all}を選択すると類目の値を詳細検索画面に入力します。"
+        detail_description_mobile_html: "要目を選択してください。<br>詳細検索画面に戻り、値を入力します。<br>%{all}を選択すると網目の値を入力します。"
 
   manifestation_page:
     classification_ph: "分類記号を入力"

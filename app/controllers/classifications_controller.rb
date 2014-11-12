@@ -172,7 +172,7 @@ class ClassificationsController < ApplicationController
       @sub_category_number = params[:sub_category_number]
       @count_start = @sub_category_number.to_i
       @count_end = @count_start + 9
-      sub_category_group = @count_start / 10  
+      sub_category_group = sprintf("%02d", @count_start / 10)  
       @step = 1
       @categories = Classification.get_detail_categories_mobile(sub_category_group, @count_start, @count_end)
     elsif params[:category_number] # 網目表を表示

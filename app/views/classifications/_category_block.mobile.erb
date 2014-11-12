@@ -14,11 +14,11 @@
 <ul data-role="listview">
   <% if @sub_category_number %>
     <li>
-      <%= link_to "#{@sub_category_number} #{t('activerecord.attributes.search.sub_category_all')}", @link_title[@count_start] %>
+      <%= link_to "#{t('activerecord.attributes.search.sub_category_all')}", @link_title[@count_start] %>
     </li>
   <% elsif @category_number %>
     <li>
-      <%= link_to "#{@category_number} #{t('activerecord.attributes.search.category_all')}", @link_title[@count_start] %>
+      <%= link_to "#{t('activerecord.attributes.search.category_all')}", @link_title[@count_start] %>
     </li>
   <% end %> 
 
